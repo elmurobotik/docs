@@ -1,0 +1,63 @@
+---
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 1 * * 0"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo pip3 install -r requirements.txt
+        git clone -b noetic git@github.com:elmurobotik/ros-tutorials.git
+
+    - name: Build ElmuRobotik Docs
+      run: |
+        cd docs
+        make html
+
+  deploy:
+    name: Deploy ElmuRobotik Docs
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo pip3 install -r requirements.txt
+        git clone -b noetic git@github.com:elmurobotik/ros-tutorials.git
+
+    - name: Build and deploy image
+      shell: bash
+      env:
+        USERNAME: ${{ secrets.USERNAME }}
+        TOKEN: ${{ secrets.TOKEN }}
+      run: |
+        # Build docs
+        cd docs
+        make html
+        REV_VERSION=$(git rev-parse --short HEAD)
+        
+        # Push built docs
+        git clone https://$USERNAME:$TOKEN@github.com/elmurobotik/elmurobotik.github.io.git
+        cp -r $GITHUB_WORKSPACE/docs/build/html/* elmurobotik.github.io
+        cd elmurobotik.github.io
+        git config --local user.name "ElmuRobotik CI"
+        git config --local user.email "mwasil@outlook.co.id"
+        if [[ -z `git diff --exit-code` ]]; then echo "No changes to push; exiting..."; exit 0; fi
+        git add .
+        git commit -m "New release $REV_VERSION pushed"
+        git push origin master
