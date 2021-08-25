@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo pip3 install -r requirements.txt
-        git clone -b noetic git@github.com:elmurobotik/ros-tutorials.git
+        git clone -b noetic https://github.com/elmurobotik/ros-tutorials.git 
 
     - name: Build ElmuRobotik Docs
       run: |
@@ -38,7 +38,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo pip3 install -r requirements.txt
-        git clone -b noetic git@github.com:elmurobotik/ros-tutorials.git
+        git clone -b noetic https://github.com/elmurobotik/ros-tutorials.git 
 
     - name: Build and deploy image
       shell: bash
