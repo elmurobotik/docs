@@ -57,7 +57,7 @@ jobs:
         cd elmurobotik.github.io
         git config --local user.name "ElmuRobotik CI"
         git config --local user.email "mwasil@outlook.co.id"
-        if [[ -z `git diff --exit-code` ]]; then echo "No changes to push; exiting..."; exit 0; fi
+        #if [[ -z `git diff --exit-code` ]]; then echo "No changes to push; exiting..."; exit 0; fi
         git add .
         git commit -m "New release $REV_VERSION pushed"
         git push origin main
