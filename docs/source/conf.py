@@ -29,7 +29,9 @@ release = '0.1.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx_rtd_theme", 'sphinx.ext.autosectionlabel']
+extensions = ["sphinx_rtd_theme", 
+              "sphinx.ext.autosectionlabel",
+              "sphinx.ext.githubpages"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -57,3 +59,15 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# The name for this set of Sphinx documents.  If None, it defaults to
+# "<project> v<release> documentation".
+html_title = 'Democratize Robotics'
+
+# Master document should be index.rst instead of contents.rst
+# https://github.com/readthedocs/readthedocs.org/issues/2569#issuecomment-485117471
+master_doc = 'index'
+
+# The name of an image file (relative to this directory) to place at the top
+# of the sidebar.
+html_logo = 'images/elmurobotik-logo.png'
